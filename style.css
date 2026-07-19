@@ -45,6 +45,26 @@ body {
   line-height: 1.6;
 }
 
+.status-banner {
+  margin: 14px 0 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff3e7;
+  color: #8a4b2d;
+  border: 1px solid #ffd0b9;
+  font-weight: 700;
+}
+
+.file-warning {
+  margin: 10px 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #ffe1dc;
+  color: #89312d;
+  border: 1px solid #ffb5aa;
+  font-weight: 700;
+}
+
 .speech-btn {
   background: #ff8c94;
   color: white;
@@ -67,16 +87,18 @@ body {
   border: 2px solid transparent;
   border-radius: 16px;
   background: #fff;
+  color: #5f3f2f;
   padding: 14px 16px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
 }
 
 .tab-button:hover,
 .tab-button.active {
   border-color: #ffb3a8;
+  background: #fff0ea;
   transform: translateY(-1px);
 }
 

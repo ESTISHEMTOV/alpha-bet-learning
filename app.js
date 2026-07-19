@@ -32,6 +32,7 @@ const gameArea = document.getElementById('game-area');
 const statsBoard = document.getElementById('stats-board');
 const speechButton = document.getElementById('speech-button');
 const resetButton = document.getElementById('reset-progress');
+const statusBanner = document.getElementById('status-banner');
 let learnedLetters = {};
 let stats = {};
 let currentGame = null;
@@ -51,10 +52,14 @@ const gameDefinitions = {
 let remoteSettings = { url: '', anonKey: '', active: false };
 let supabaseClient = null;
 
+const fileWarning = document.getElementById('file-warning');
+
 function initialize() {
   loadData();
   openSupabaseConnection();
   attachHandlers();
+  initSpeechVoices();
+  checkFileMode();
   renderLetterCards();
   renderStats();
 }
@@ -74,12 +79,21 @@ function saveRemoteSettings() {
   localStorage.setItem(STORAGE_REMOTE, JSON.stringify(remoteSettings));
 }
 
+function showStatus(message) {
+  if (!statusBanner) return;
+  statusBanner.textContent = message;
+}
+
 function attachHandlers() {
   tabButtons.forEach((button) => {
-    button.addEventListener('click', () => switchTab(button.dataset.tab));
+    button.addEventListener('click', () => {
+      switchTab(button.dataset.tab);
+      showStatus(`עברתי ללשונית ${button.textContent.trim()}.`);
+    });
   });
 
   speechButton.addEventListener('click', () => {
+    showStatus('אם לא נשמע קול, המשיכי ללחוץ על האותיות. אפשר לשחק בלי קול.');
     speakText('שלום! בואי נלמד אותיות ביחד. בחרי אות כדי לשמוע אותה.', true);
   });
 
@@ -109,11 +123,13 @@ function renderLetterCards() {
     nameEl.textContent = letter.name;
     descriptionEl.textContent = letter.description;
     speakBtn.addEventListener('click', () => {
+      showStatus(`שומעים את ${letter.name}.`);
       speakText(`${letter.name}. ${letter.description}. דוגמה: ${letter.sample}.`);
     });
+    speakBtn.textContent = 'קראי לי';
 
     const isLearned = Boolean(learnedLetters[letter.symbol]);
-    learnedBtn.textContent = isLearned ? 'סומנה כנקראה' : 'למדתי את האות';
+    learnedBtn.textContent = isLearned ? 'אני מכירה' : 'אני למדתי';
     learnedBtn.addEventListener('click', () => toggleLearned(letter.symbol));
 
     if (isLearned) {
@@ -129,11 +145,13 @@ function toggleLearned(symbol) {
   saveData();
   renderLetterCards();
   renderStats();
+  const label = learnedLetters[symbol] ? 'סומנה כנקראה' : 'הוסרה מההתקדמות';
+  showStatus(`האות ${symbol} ${label}.`);
 }
 
 function speakText(text, reset = false) {
   if (!speechSupported) {
-    alert('הדפדפן שלך לא תומך בסינטזת דיבור. את יכולה עדיין לשחק וללמוד בלי קול.');
+    showStatus('אין קול בדפדפן הזה. תמשיכי ללחוץ על האותיות כדי ללמוד.');
     return;
   }
   if (reset) {
@@ -143,13 +161,49 @@ function speakText(text, reset = false) {
   utterance.lang = 'he-IL';
   utterance.rate = 0.9;
   utterance.pitch = 1.05;
+  utterance.onstart = () => {
+    showStatus('הקול מנסה להשמיע. אם לא נשמע, נסי להפעיל שמע או לפתוח דרך GitHub Pages.');
+  };
+  utterance.onerror = () => {
+    showStatus('הקול לא הצליח להשמיע. זה לא נורא, אפשר להמשיך ללמוד בלי קול.');
+  };
   speechSynthesis.speak(utterance);
+}
+
+function initSpeechVoices() {
+  if (!speechSupported) return;
+  const updateVoiceStatus = () => {
+    const voices = speechSynthesis.getVoices() || [];
+    if (voices.length > 0) {
+      showStatus('הקול מוכן. לחצי שוב על "הקשיבי".');
+    } else {
+      if (location.protocol === 'file:') {
+        showStatus('האתר פתוח כקובץ מקומי, ולכן הקול עשוי לא לעבוד. אפשר לשחק בלי קול או לפתוח דרך שרת מקומי.');
+      } else {
+        showStatus('אין קולות זמינים כרגע. אפשר לשחק בלי קול.');
+      }
+    }
+  };
+  speechSynthesis.onvoiceschanged = updateVoiceStatus;
+  setTimeout(updateVoiceStatus, 500);
+  setTimeout(updateVoiceStatus, 1500);
+  setTimeout(updateVoiceStatus, 3000);
+}
+
+function checkFileMode() {
+  if (location.protocol === 'file:') {
+    if (fileWarning) {
+      fileWarning.removeAttribute('hidden');
+    }
+    showStatus('הקובץ פתוח כקובץ מקומי ולכן ייתכן שאין קול. אפשר להמשיך לשחק בלי קול.');
+  }
 }
 
 function prepareGame(gameKey) {
   const learned = getLearnedLetters();
   if (learned.length === 0) {
     showGameMessage('בחרי לפחות אות אחת שלימדת כדי לשחק. לחצי על "למדתי את האות" בכרטיסיה של האות.', true);
+    showStatus('בחרי אות אחת ראשונה, ואז אפשר להתחיל לשחק.');
     return;
   }
   currentGame = gameKey;
@@ -172,6 +226,7 @@ function prepareGame(gameKey) {
   `;
   gameArea.innerHTML = html;
   gameArea.classList.remove('hidden');
+  showStatus(`המשחק התחיל עם האות ${currentLetter.symbol}.`);
   speakText(`האות היא ${currentLetter.name}. ${currentLetter.description}. דוגמה: ${currentLetter.sample}.`);
   document.getElementById('confirm-ready').addEventListener('click', () => startGameRound(gameKey, currentLetter));
 }
@@ -249,9 +304,11 @@ function onChoiceSelected(button, correctSymbol, gameKey) {
   const feedback = document.getElementById('game-feedback');
   if (success) {
     feedback.textContent = 'כל הכבוד! זה נכון!';
+    showStatus('כל הכבוד! הבחירה שלך נכונה.');
     speakText('כל הכבוד! הבחירה שלך נכונה.');
   } else {
     feedback.textContent = `זה לא נכון. האות הנכונה היא ${correctSymbol}.`; 
+    showStatus(`זה לא נכון. האות הנכונה היא ${correctSymbol}.`);
     speakText(`זה לא נכון. האות הנכונה היא ${correctSymbol}.`);
   }
   updateStats(gameKey, success);

@@ -13,8 +13,18 @@
         <h1>ברוכה הבאה לאותיות שלי</h1>
         <p>כאן תלמדי את האותיות בדרך מהנה, צבעונית ובטוחה.</p>
       </div>
-      <button id="speech-button" class="speech-btn">הקשיבי לי</button>
+      <button id="speech-button" class="speech-btn">קראי לי</button>
     </header>
+
+    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+      אם לא שומעים קול - זה בסדר. לחצי על אות, ואז על "אני למדתי".
+    </div>
+
+    <div id="file-warning" class="file-warning" role="alert" aria-live="assertive" hidden>
+      הדף פתוח כקובץ מקומי ולכן ייתכן שהקול לא יעבוד.
+      כדי לקבל קול, פתחי דרך שרת מקומי: הריצי בתיקייה "python -m http.server 8000" וגלשי לכתובת
+      http://127.0.0.1:8000/ או העלי את האתר ל-GitHub Pages.
+    </div>
 
     <nav class="tabs">
       <button class="tab-button active" data-tab="learn">הכרת אותיות</button>
@@ -26,7 +36,7 @@
       <section id="learn" class="tab-panel active">
         <div class="panel-head">
           <h2>הכרות עם האותיות</h2>
-          <p>בחרי אות וחקרי אותה. לאחר מכן לחצי "למדתי את האות" כדי לשחרר משחקים שמבוססים עליה.</p>
+          <p>לחצי על אות. אחרי זה לחצי על "למדתי את האות" כדי שיתאפשרו המשחקים.</p>
         </div>
         <div id="letters-grid" class="cards-grid"></div>
       </section>
@@ -34,17 +44,17 @@
       <section id="games" class="tab-panel">
         <div class="panel-head">
           <h2>משחקים חכמים</h2>
-          <p>לפני שמשחקים, נוודא שהכרת לפחות אות אחת ושהבנת מה היא האות.</p>
+          <p>לפני המשחק, ודאתי שלמדת לפחות אות אחת.</p>
         </div>
         <div class="games-panel">
           <div class="game-card">
             <h3>מצא את האות לפי שמה</h3>
-            <p>אני אומרת את השם של האות, ואת בוחרת את האות הנכונה.</p>
+            <p>אני אומרת לך את שם האות, ואת בוחרת את האות הנכונה.</p>
             <button id="start-game-1">התחלי לשחק</button>
           </div>
           <div class="game-card">
             <h3>הקשיבי לאות ובחרי</h3>
-            <p>את שומעת את האות וקוראת לה. בחרי את האות ששמעת.</p>
+            <p>שומעות את האות, ואז בוחרות את האות ששמעת.</p>
             <button id="start-game-2">התחלי לשחק</button>
           </div>
         </div>

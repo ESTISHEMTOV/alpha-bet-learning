@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>לימוד הא'-ב' לילדה</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <h1>ברוכה הבאה לאותיות שלי</h1>
+        <p>כאן תלמדי את האותיות בדרך מהנה, צבעונית ובטוחה.</p>
+      </div>
+      <button id="speech-button" class="speech-btn">הקשיבי לי</button>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-button active" data-tab="learn">הכרת אותיות</button>
+      <button class="tab-button" data-tab="games">משחקים</button>
+      <button class="tab-button" data-tab="stats">סטטיסטיקה</button>
+    </nav>
+
+    <main>
+      <section id="learn" class="tab-panel active">
+        <div class="panel-head">
+          <h2>הכרות עם האותיות</h2>
+          <p>בחרי אות וחקרי אותה. לאחר מכן לחצי "למדתי את האות" כדי לשחרר משחקים שמבוססים עליה.</p>
+        </div>
+        <div id="letters-grid" class="cards-grid"></div>
+      </section>
+
+      <section id="games" class="tab-panel">
+        <div class="panel-head">
+          <h2>משחקים חכמים</h2>
+          <p>לפני שמשחקים, נוודא שהכרת לפחות אות אחת ושהבנת מה היא האות.</p>
+        </div>
+        <div class="games-panel">
+          <div class="game-card">
+            <h3>מצא את האות לפי שמה</h3>
+            <p>אני אומרת את השם של האות, ואת בוחרת את האות הנכונה.</p>
+            <button id="start-game-1">התחלי לשחק</button>
+          </div>
+          <div class="game-card">
+            <h3>הקשיבי לאות ובחרי</h3>
+            <p>את שומעת את האות וקוראת לה. בחרי את האות ששמעת.</p>
+            <button id="start-game-2">התחלי לשחק</button>
+          </div>
+        </div>
+        <div id="game-area" class="game-area hidden"></div>
+      </section>
+
+      <section id="stats" class="tab-panel">
+        <div class="panel-head">
+          <h2>סטטיסטיקה יומית</h2>
+          <p>כאן תראי כמה פעמים שיחקת בכל משחק וכמה הצלחות היו היום.</p>
+        </div>
+        <div id="stats-board" class="stats-board"></div>
+        <div class="stats-summary">
+          <button id="reset-progress">נקה התקדמות</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="letter-card-template">
+    <article class="letter-card">
+      <div class="letter-symbol"></div>
+      <div class="letter-info">
+        <h3 class="letter-name"></h3>
+        <p class="letter-description"></p>
+      </div>
+      <div class="letter-actions">
+        <button class="speak-letter">הקשיבי</button>
+        <button class="mark-learned">למדתי את האות</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

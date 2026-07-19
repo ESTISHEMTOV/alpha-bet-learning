@@ -1,0 +1,327 @@
+:root {
+  color-scheme: light;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff6f3;
+  color: #2b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff6f3 0%, #fffae6 100%);
+}
+
+.app-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 16px;
+  background: #ffe6d6;
+  border-radius: 22px;
+  border: 2px solid #ffd0b9;
+}
+
+.app-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 2.4vw, 2.6rem);
+  letter-spacing: 0.05em;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.speech-btn {
+  background: #ff8c94;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(255, 140, 148, 0.25);
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0 10px;
+}
+
+.tab-button {
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: #fff;
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  border-color: #ffb3a8;
+  transform: translateY(-1px);
+}
+
+main {
+  min-height: 70vh;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.panel-head {
+  padding: 16px;
+  background: linear-gradient(135deg, #ffdfd5 0%, #fff1e2 100%);
+  border-radius: 20px;
+  border: 1px solid #ffd0b9;
+  margin-bottom: 18px;
+}
+
+.panel-head h2 {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.letter-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 20px;
+  background: white;
+  border: 2px solid #ffd0b9;
+  box-shadow: 0 12px 25px rgba(245, 135, 152, 0.12);
+}
+
+.letter-symbol {
+  width: 100%;
+  min-height: 120px;
+  background: radial-gradient(circle at top left, #ffdfd5, #ffc2b0);
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: #9b2f44;
+}
+
+.letter-info {
+  display: grid;
+  gap: 6px;
+}
+
+.letter-name {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.letter-description {
+  margin: 0;
+  color: #6e5a4f;
+  line-height: 1.5;
+}
+
+.letter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.letter-actions button,
+button {
+  border: none;
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 0.98rem;
+  cursor: pointer;
+  color: white;
+}
+
+.letter-actions .speak-letter {
+  background: #6f9df5;
+}
+
+.letter-actions .mark-learned {
+  background: #52c46e;
+}
+
+button:hover {
+  opacity: 0.95;
+}
+
+.games-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.game-card {
+  background: white;
+  border-radius: 20px;
+  border: 2px solid #fff0db;
+  padding: 18px;
+  box-shadow: 0 14px 30px rgba(255, 163, 132, 0.12);
+}
+
+.game-card h3 {
+  margin: 0 0 10px;
+}
+
+.game-card p {
+  margin: 0 0 14px;
+  color: #6a5346;
+}
+
+.game-card button {
+  background: #ff8c94;
+}
+
+.game-area {
+  margin-top: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff4f1 0%, #ffe3da 100%);
+  border-radius: 24px;
+  border: 2px dashed #ffb3a8;
+}
+
+.game-stage {
+  display: grid;
+  gap: 20px;
+}
+
+.choices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 14px;
+}
+
+.choice-button {
+  border-radius: 18px;
+  border: 2px solid transparent;
+  padding: 18px;
+  font-size: 1.3rem;
+  background: linear-gradient(180deg, #ffffff 0%, #ffe6e0 100%);
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(236, 120, 142, 0.18);
+}
+
+.choice-button:hover {
+  border-color: #ff9a9a;
+}
+
+.choice-button.correct {
+  background: #d6f5e0;
+  border-color: #4fc47a;
+}
+
+.choice-button.wrong {
+  background: #ffdde1;
+  border-color: #ff6b7b;
+}
+
+.hidden {
+  display: none;
+}
+
+.stats-board {
+  display: grid;
+  gap: 12px;
+}
+
+.stats-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  background: white;
+  border-radius: 18px;
+  border: 2px solid #ffd9cc;
+}
+
+.stats-card p {
+  margin: 0;
+  color: #5f4b42;
+}
+
+.stats-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.stats-actions input,
+.remote-connection input {
+  width: 100%;
+  border: 2px solid #ffd0b9;
+  border-radius: 16px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  background: #fffaf6;
+}
+
+.stats-actions button {
+  background: #6f9df5;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.remote-status {
+  margin-top: 10px;
+  color: #4b4b4b;
+  font-weight: 700;
+}
+
+.remote-connection label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.95rem;
+  color: #5f4b42;
+}
+
+.stats-summary {
+  margin-top: 18px;
+}
+
+#reset-progress {
+  background: #f48383;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabs {
+    grid-template-columns: 1fr;
+  }
+}

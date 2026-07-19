@@ -48,13 +48,8 @@ const gameDefinitions = {
   },
 };
 
-let learnedLetters = {};
-let stats = {};
 let remoteSettings = { url: '', anonKey: '', active: false };
 let supabase = null;
-let currentGame = null;
-let currentLetter = null;
-let speechSupported = 'speechSynthesis' in window;
 
 function initialize() {
   loadData();

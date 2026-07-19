@@ -49,7 +49,7 @@ const gameDefinitions = {
 };
 
 let remoteSettings = { url: '', anonKey: '', active: false };
-let supabase = null;
+let supabaseClient = null;
 
 function initialize() {
   loadData();
@@ -271,15 +271,15 @@ function updateStats(gameKey, success) {
   stats[today][gameKey].plays += 1;
   if (success) stats[today][gameKey].wins += 1;
   saveData();
-  if (remoteSettings.active && supabase) {
+  if (remoteSettings.active && supabaseClient) {
     syncRemoteStats(today, gameKey, success);
   }
   renderStats();
 }
 
 async function syncRemoteStats(today, gameKey, success) {
-  if (!supabase) return;
-  const { data, error } = await supabase
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
     .from('alpha_bet_learning')
     .select('plays,wins')
     .eq('date', today)
@@ -292,7 +292,7 @@ async function syncRemoteStats(today, gameKey, success) {
   }
 
   if (data) {
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseClient
       .from('alpha_bet_learning')
       .update({
         plays: data.plays + 1,
@@ -305,7 +305,7 @@ async function syncRemoteStats(today, gameKey, success) {
       console.error('עדכון סטטיסטיקה ב-Supabase נכשל:', updateError.message);
     }
   } else {
-    const { error: insertError } = await supabase.from('alpha_bet_learning').insert({
+    const { error: insertError } = await supabaseClient.from('alpha_bet_learning').insert({
       date: today,
       game: gameKey,
       plays: 1,
@@ -429,7 +429,7 @@ function openSupabaseConnection() {
     alert('הספרייה של Supabase לא נטענה. ודאי שהסקריפט של Supabase נמצא ב-index.html.');
     return;
   }
-  supabase = supabase.createClient(remoteSettings.url, remoteSettings.anonKey);
+  supabaseClient = supabase.createClient(remoteSettings.url, remoteSettings.anonKey);
 }
 
 function showGameMessage(message, highlight = false) {
